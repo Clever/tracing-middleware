@@ -30,7 +30,8 @@ export default function middleware(options = {}) {
     Object.assign(req, {span});
 
     // finalize the span when the response is completed
-    res.on("finish", () => {
+    const endCopy = res.end;
+    res.end = function() {
       span.logEvent("request_finished");
       // Route matching often happens after the middleware is run. Try changing the operation name
       // to the route matcher.
@@ -42,7 +43,8 @@ export default function middleware(options = {}) {
         span.setTag("sampling.priority", 1);
       }
       span.finish();
-    });
+      endCopy.apply(this, arguments);
+    };
     next();
   };
 }
