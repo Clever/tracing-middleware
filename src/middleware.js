@@ -2,14 +2,9 @@ import * as opentracing from "opentracing";
 import * as url from "url";
 
 export default function middleware(options = {}) {
-  if (options.tracer) {
-    opentracing.initGlobalTracer(options.tracer);
-  } else {
-    opentracing.initGlobalTracer();
-  }
+  const tracer = options.tracer || opentracing.globalTracer();
 
   return (req, res, next) => {
-    const tracer = opentracing.globalTracer();
     const wireCtx = tracer.extract(opentracing.FORMAT_HTTP_HEADERS, req.headers);
     const pathname = url.parse(req.url).pathname;
     const span = tracer.startSpan(pathname, {childOf: wireCtx});
