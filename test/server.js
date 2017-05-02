@@ -9,8 +9,8 @@ const sinon = require("sinon");
 describe("e2e express app", () => {
   it("works with default tracer", (done) => {
     const app = express();
-    const tracer = new opentracing.Tracer()
-    app.use(middleware({ tracer }));
+    const tracer = opentracing.globalTracer();
+    app.use(middleware({}));
     const startSpanSpy = sinon.spy(tracer, "startSpan");
 
     let reqSpanPresent = false;
