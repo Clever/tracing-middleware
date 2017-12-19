@@ -5,6 +5,10 @@
 Middleware for express to enable opentracing.
 Supports any opentracing tracer compatible with version 0.11.0 of the opentracing javascript library.
 
+## Deprecated
+
+Please note that this library has been moved to [https://github.com/opentracing-contrib/javascript-express](https://github.com/opentracing-contrib/javascript-express). Please use that version instead.
+
 ## Install
 ```
 npm install --save tracing-middleware
